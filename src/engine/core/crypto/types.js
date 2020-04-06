@@ -1,0 +1,1 @@
+export const GET_CRYPTO_DATA = 'GET_CRYPTO_DATA';
