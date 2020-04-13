@@ -4,18 +4,25 @@ import { GET_CRYPTO_DATA_ASYNC } from './asyncTypes';
 import axios from 'axios';
 
 import { setCryptoData } from '../action';
+
+const CURRENCY_FOR_CHECK = ['btc', 'eth', 'xrp'];
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+
 function * callGetCryptoDataWorker () {
     try {
         const response = yield axios.get('https://api.kuna.io/v3/exchange-rates');
-        function filterCurrentCrypto(value){
-            const cryptoValute = ["btc", "eth", "xrp"];
-            if(cryptoValute.includes(value.currency))
-                return value
-        }
-        const data = (response.data).filter(filterCurrentCrypto);
+
+        const data = response.data.reduce((acc, item) => {
+            const { currency } = item;
+            if (CURRENCY_FOR_CHECK.includes(currency)) {
+                acc[currency] = item;
+            }
+            return acc;
+        }, {});
+
         const action = setCryptoData(data);
         yield put(action);
-        
     }
 
     catch (err) {
@@ -25,8 +32,7 @@ function * callGetCryptoDataWorker () {
 function* callGetCryptoDataWorkerPeriod() {
     while (true) {
       yield call(callGetCryptoDataWorker);
-      const seconds = 60; 
-      yield delay(seconds * 1000);
+      yield delay(MINUTE);
     }
   }
 
@@ -43,4 +49,10 @@ export function* cryptoWatcher() {
         call(watchGetCryptoData),
         call(watchGetCryptoDataPeriod)
     ]);
+}
+
+function filterCurrentCrypto(value){
+    const cryptoValute = ["btc", "eth", "xrp"];
+    if(cryptoValute.includes(value.currency))
+        return value
 }

@@ -13,3 +13,8 @@ export function setCryptoCurrencyIndex (currency) {
         payload: currency
     }
 }
+
+export const setActiveCurrency = (currency) => ({
+    type: types.SET_ACTIVE_CRYPTO_CURRENCY,
+    payload: currency
+});

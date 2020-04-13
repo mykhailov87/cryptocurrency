@@ -1,4 +1,12 @@
+import { createSelector } from 'reselect'
+
 export const getCryptoDataSelector = state => state.cryptoData.data;
-export const getCryptoCurrencyIndex = state => state.cryptoData.data[0].currency;
+export const cryptoCurrencyActiveSelector = state => state.cryptoData.currency;
+
+export const activeCryptoCurrencyInfoSelector = createSelector(
+  getCryptoDataSelector,
+  cryptoCurrencyActiveSelector,
+  (data, currency) => data[currency] || {}
+);
 
 

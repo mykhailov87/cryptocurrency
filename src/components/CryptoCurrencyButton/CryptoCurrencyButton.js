@@ -1,26 +1,20 @@
-import React, {useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { setActiveCurrency } from '../../engine/core/crypto/action';
 import './CryptoCurrencyButton.css'
-import { setCryptoCurrencyIndex } from '../../engine/core/crypto/action';
-import { getCryptoCurrencyIndex } from '../../engine/core/crypto/selectors';
-
 
 function CryptoCurrencyButton (props) {
-    const { item } = props;
-    const { currency, rub, uah, usd } = item;
-
+    const { currency, rub, uah, usd } = props;
     const dispatch = useDispatch();
-    useEffect(()=>{
-    dispatch(setCryptoCurrencyIndex());
-    }, [dispatch]);
-    
-    const index = useSelector(getCryptoCurrencyIndex);
-    console.log(index);
+
+    const onClickHandler = useCallback(() => {
+        dispatch(setActiveCurrency(currency))
+    }, [currency, dispatch]);
 
     return(
         <>
             <div className="currencyButton">
-                <button onClick={() => dispatch(getCryptoCurrencyIndex())}>
+                <button onClick={onClickHandler}>
                     <img src={require(`../../assets/images/${currency.toUpperCase()}.png`)} alt=''/>
                     <h3>UAH: {uah}</h3>
                     <h3>USD: {usd}</h3>
