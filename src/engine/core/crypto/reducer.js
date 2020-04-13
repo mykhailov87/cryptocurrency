@@ -1,16 +1,23 @@
-import {GET_CRYPTO_DATA} from './types';
+import * as types from './types';
 
 const initialState = {
-    data: []
+    data: [],
+    currency: 'BTC'
 };
 
-export function getCryptoDataReducer (state = initialState, action) {
+export function setCryptoDataReducer (state = initialState, action) {
     const { type } = action;
     switch (type) {
-        case GET_CRYPTO_DATA : {
+        case types.SET_CRYPTO_DATA : {
             return {
                 ...state,
                 data: action.payload
+            }
+        }
+        case types.SET_CRYPTO_CURRENCY_INDEX : {
+            return {
+                ...state,
+                currency: action.payload
             }
         }
         default: {

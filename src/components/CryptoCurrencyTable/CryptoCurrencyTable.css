@@ -1,3 +1,6 @@
 .currencyTable {
     display: flex;
 }
+.selectCurrency{
+    margin-left: 100px;
+}

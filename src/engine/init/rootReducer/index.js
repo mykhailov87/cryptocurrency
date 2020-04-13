@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import { getCryptoDataReducer } from '../../core/crypto/reducer';
+import { setCryptoDataReducer } from '../../core/crypto/reducer';
 
 const rootReducer = () => combineReducers ({
-    cryptoData: getCryptoDataReducer,
+    cryptoData: setCryptoDataReducer,
 });
 
 export { rootReducer };
